@@ -25,6 +25,8 @@ class MovieInfo(BaseModel):
     notable_features: Optional[str]
     short_summary: Optional[str]
 
+parser = PydanticOutputParser(pydantic_object=MovieInfo)
+
 
 prompt = ChatPromptTemplate.from_messages(
    [
@@ -68,7 +70,8 @@ paragraph = input("Enter a movie description: ")
 
 final_prompt = prompt.invoke(
     {
-        "paragraph": paragraph
+        "paragraph": paragraph,
+        "format_instructions": parser.get_format_instructions()
     }
 )
 
